@@ -1,4 +1,8 @@
 /Release/
-/Debug/
 /.settings/
 /targetConfigs/
+/Debug/src/
+/Debug/*.opt
+/Debug/*.xml
+/Debug/makefile
+/Debug/*.mk
