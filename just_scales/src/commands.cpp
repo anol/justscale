@@ -60,7 +60,11 @@ tCmdLineEntry g_psCmdTable[] = {
 
 { "sety", CMD_sety, " : Set the Y value" },
 
-{ "diag", CMD_diag, " : Show diagnostic information" },
+{ "diag", CMD_diag, " : Show diagnostics" },
+
+{ "info", CMD_info, " : Show information" },
+
+{ "trace", CMD_trace, " : Toggle trace on/off" },
 
 { "ver", CMD_ver, " : Show program info" },
 
@@ -106,6 +110,16 @@ int CMD_sety(int argc, char **argv) {
 //--------------------------------
 int CMD_diag(int argc, char **argv) {
 	g_oPrimaryActivity.Diag();
+	return (0);
+}
+//--------------------------------
+int CMD_info(int argc, char **argv) {
+	g_oPrimaryActivity.Info();
+	return (0);
+}
+//--------------------------------
+int CMD_trace(int argc, char **argv) {
+	g_oPrimaryActivity.Trace();
 	return (0);
 }
 //--------------------------------

@@ -98,6 +98,7 @@ static void MainLoop() {
 			OnCommand(g_zInput);
 		} else {
 			SysCtlDelay(SysCtlClockGet() / (1000 / 3));
+			g_oPrimaryActivity.OnTrace();
 		}
 	}
 }

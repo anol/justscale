@@ -17,8 +17,13 @@ public:
 	void Initialize();
 	void OnTick();
 	void Diag();
+	void Info();
 	void SetX(int nValue);
 	void SetY(int nValue);
+	void OnTrace();
+	void Trace() {
+		m_bTrace = ~m_bTrace;
+	}
 
 private:
 	bool CheckInputs(int& rCount, bool bButton, bool bIndex) const;
@@ -30,6 +35,8 @@ private:
 	aeo1::qei_sensor m_oScale_Y;
 	int m_nPressedCount_X;
 	int m_nPressedCount_Y;
+	bool m_bTrace;
+	bool m_bIndex;
 };
 
 #endif /* primary_activity_h */

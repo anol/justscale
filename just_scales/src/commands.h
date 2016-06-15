@@ -46,6 +46,8 @@ extern int CMD_help (int argc, char **argv);
 extern int CMD_setx (int argc, char **argv);
 extern int CMD_sety (int argc, char **argv);
 extern int CMD_diag (int argc, char **argv);
+extern int CMD_info (int argc, char **argv);
+extern int CMD_trace (int argc, char **argv);
 extern int CMD_ver (int argc, char **argv);
 
 #endif //__RGB_COMMANDS_H__

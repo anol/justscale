@@ -32,9 +32,9 @@
 //--------------------------------
 primary_activity::primary_activity() :
 		m_oDisplay_X(aeo1::ssi_display::SSI1), m_oDisplay_Y(
-				aeo1::ssi_display::SSI3), m_oScale_X(aeo1::qei_sensor::QEI0), m_oScale_Y(
-				aeo1::qei_sensor::QEI1), m_nPressedCount_X(0), m_nPressedCount_Y(
-				0) {
+				aeo1::ssi_display::SSI3), m_oScale_X(aeo1::qei_sensor::QEI1), m_oScale_Y(
+				aeo1::qei_sensor::QEI0), m_nPressedCount_X(0), m_nPressedCount_Y(
+				0), m_bTrace(false), m_bIndex(false) {
 }
 //--------------------------------
 primary_activity::~primary_activity() {
@@ -112,26 +112,53 @@ bool primary_activity::CheckInputs(int& rCount, bool bButton,
 	return bZero;
 }
 //--------------------------------
+void primary_activity::OnTrace() {
+	static int32_t oldX = 0;
+	static int32_t oldY = 0;
+	if (m_bTrace) {
+		int32_t newX = m_oScale_X.Get();
+		int32_t newY = m_oScale_Y.Get();
+		if ((newX != oldX) || (newY != oldY)) {
+			oldX = newX;
+			oldY = newY;
+			if (m_bIndex) {
+				UARTprintf("\r---\r");
+				m_bIndex = false;
+			}
+			UARTprintf("X=%d, Y=%d\r", newX, newY);
+		}
+	}
+}
+//--------------------------------
 void primary_activity::OnTick() {
 	// Check the inputs
-	if (CheckInputs(m_nPressedCount_X, GetButton_X(), GetIndex_X())) {
+	bool bIndex_X = GetIndex_X();
+	bool bIndex_Y = GetIndex_Y();
+	if (CheckInputs(m_nPressedCount_X, GetButton_X(), bIndex_X)) {
 		m_oScale_X.Zero();
 	}
-	if (CheckInputs(m_nPressedCount_Y, GetButton_Y(), GetIndex_Y())) {
+	if (CheckInputs(m_nPressedCount_Y, GetButton_Y(), bIndex_Y)) {
 		m_oScale_Y.Zero();
 	}
+	if (bIndex_X || bIndex_Y) {
+		m_bIndex = true;
+	}
 	// Update the displays
-	m_oDisplay_X.Set(m_oScale_X.Get());
-	m_oDisplay_Y.Set(m_oScale_Y.Get());
+	m_oDisplay_X.Set(m_oScale_X.Get(), 2);
+	m_oDisplay_Y.Set(m_oScale_Y.Get(), 2);
+}
+//--------------------------------
+void primary_activity::Info() {
+	UARTprintf("X: button=%5s, count=%d, index=%5s, position=%d\n",
+			GetButton_X() ? "true" : "false", m_nPressedCount_X,
+			GetIndex_X() ? "true" : "false", m_oScale_X.Get());
+	UARTprintf("Y: button=%5s, count=%d, index=%5s, position=%d\n",
+			GetButton_Y() ? "true" : "false", m_nPressedCount_Y,
+			GetIndex_Y() ? "true" : "false", m_oScale_Y.Get());
 }
 //--------------------------------
 void primary_activity::Diag() {
-	UARTprintf("X: button=%5s, index=%5s, pressed=%d\n",
-			GetButton_X() ? "true" : "false", GetIndex_X() ? "true" : "false",
-			m_nPressedCount_X);
-	UARTprintf("Y: button=%5s, index=%5s, pressed=%d\n",
-			GetButton_Y() ? "true" : "false", GetIndex_Y() ? "true" : "false",
-			m_nPressedCount_Y);
+	Info();
 	m_oDisplay_X.Diag();
 	m_oDisplay_Y.Diag();
 	m_oScale_X.Diag();
