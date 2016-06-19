@@ -10,7 +10,8 @@ function main() {
     cube({size: [95, 13, 4]}).translate([-10,1,6]),
     cube({size: [72, 24, 2]}).translate([-5.5,-4.5,8]));
     var knapp = union(cylinder({h: 10, r:12, center: true}).rotateZ(90),
-                      cylinder({h: 20, r:8, center: true}).rotateZ(90));
+                      cylinder({h: 14, r:8, center: true}).rotateZ(90),
+		      cylinder({h: 20, r:1.5, center: true}).rotateZ(90));
     var kombo = union(display.translate([44,10,0]),knapp.translate([122, 17.5,8]));
 // Placing the displays
     var display1 = kombo.translate([3,-4,0]);
