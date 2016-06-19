@@ -12,10 +12,15 @@ function main() {
     var knapp = union(cylinder({h: 10, r:12, center: true}).rotateZ(90),
                       cylinder({h: 20, r:8, center: true}).rotateZ(90));
     var kombo = union(display.translate([44,10,0]),knapp.translate([122, 17.5,8]));
-// Locating the displays
+// Placing the displays
     var display1 = kombo.translate([3,-4,0]);
     var display2 = kombo.translate([3,18.5,0]);
     var display3 = kombo.translate([3,41,0]);
-    return difference(plate, display1, display2, display3 )
-           .translate([-70,-36,0.1]);;
+// Add locators for the Launchpad
+    var socket = cube({size: [27, 6, 10]});
+    var locator = union(socket.translate([0,0,0]),socket.translate([0,43,0]))
+	.translate([12,11.5,4]);
+// And, the final result
+    return difference(plate, display1, display2, display3, locator )
+           .translate([-70,-36,0.1]);
 }
