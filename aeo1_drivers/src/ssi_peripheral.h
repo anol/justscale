@@ -26,8 +26,8 @@ public:
 	};
 
 public:
-	ssi_peripheral(device_id nDevice, uint32_t nBitRate, bool bNonBlocking =
-			true);
+	ssi_peripheral(device_id nDevice, uint32_t nBitRate, uint32_t nProtocol,
+			bool bNonBlocking);
 	virtual ~ssi_peripheral();
 
 public:
@@ -56,6 +56,7 @@ protected:
 
 private:
 	const ssi_specification& m_rSpecification;
+	uint32_t m_nProtocol;
 	device_id m_nDevice;
 	uint32_t m_nBitRate;
 	uint32_t m_nSRTFE; // SSI Transmit FIFO Empty (status)

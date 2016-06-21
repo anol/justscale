@@ -71,8 +71,9 @@ enum {
 };
 //--------------------------------
 ssi_drv8711::ssi_drv8711() :
-		ssi_peripheral(ssi_peripheral::SSI2, ssi_drv8711_bitrate, false), m_nStallCounter(
-				0), m_nFaultCounter(0) {
+		ssi_peripheral(ssi_peripheral::SSI2, ssi_drv8711_bitrate,
+		SSI_FRF_MOTO_MODE_0, false), m_nStallCounter(0), m_nFaultCounter(
+				0) {
 	memset(m_nRegister, 0, sizeof(m_nRegister));
 }
 //--------------------------------

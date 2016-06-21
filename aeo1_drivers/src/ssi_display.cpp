@@ -25,7 +25,7 @@
 namespace aeo1 {
 //--------------------------------
 ssi_display::ssi_display(ssi_peripheral::device_id nDevice) :
-		ssi_peripheral(nDevice, 20000) {
+		ssi_peripheral(nDevice, 20000, SSI_FRF_MOTO_MODE_0, true) {
 }
 //--------------------------------
 ssi_display::~ssi_display() {
@@ -79,7 +79,7 @@ void ssi_display::Set(int32_t nValue, int nDecimals) {
 //--------------------------------
 void ssi_display::Set(const char* zString) {
 	for (int nGpc = BufferSize; 0 < nGpc; nGpc--) {
-		int nSymbolNumber = nGpc-1;
+		int nSymbolNumber = nGpc - 1;
 		uint8_t nCode;
 		if (zString && *zString) {
 			char cSymbol = *zString++;

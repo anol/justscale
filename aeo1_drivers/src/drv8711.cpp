@@ -27,17 +27,17 @@ struct drv8711_registerset {
 	int nRegValue[8];
 };
 //--------------------------------
-static const drv8711_registerset RegisterSet_Default = {
-
-0x000, 0x0FF, 0x030, 0x080, 0x110, 0x040, 0x032, 0x000
-
-};
+//static const drv8711_registerset RegisterSet_Default = {
+//
+//0x000, 0x0FF, 0x030, 0x080, 0x110, 0x040, 0x032, 0x000
+//
+//};
 //--------------------------------
-static const drv8711_registerset RegisterSet_Alpha = {
-
-0xF1C, 0x0BA, 0x030, 0x108, 0x510, 0xF40, 0x033, 0x000
-
-};
+//static const drv8711_registerset RegisterSet_Alpha = {
+//
+//0xF1C, 0x0BA, 0x030, 0x108, 0x510, 0xF40, 0x033, 0x000
+//
+//};
 //--------------------------------
 static const drv8711_registerset RegisterSet_Guide = {
 

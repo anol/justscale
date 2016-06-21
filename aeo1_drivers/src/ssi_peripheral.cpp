@@ -128,6 +128,7 @@ ssi_specification SSI3_Specification
 
 //--------------------------------
 ssi_peripheral::ssi_peripheral(device_id nDevice, uint32_t nBitRate,
+		uint32_t nProtocol /*=SSI_FRF_MOTO_MODE_0*/,
 		bool bNonBlocking /*=true*/) :
 		// Use the Right SSI Peripheral Setup
 		m_rSpecification(
@@ -138,9 +139,9 @@ ssi_peripheral::ssi_peripheral(device_id nDevice, uint32_t nBitRate,
 								((ssi_peripheral::SSI2 == nDevice) ?
 										SSI2_Specification : SSI3_Specification))),
 		// Other members
-		m_nDevice(nDevice), m_nBitRate(nBitRate), m_nSRTFE(0), m_nTXFF(0), m_nRXFF(
-				0), m_nRXTO(0), m_nRXOR(0), m_bEmpty(false), m_bNonBlocking(
-				bNonBlocking), m_nRxCount(0) {
+		m_nProtocol(nProtocol), m_nDevice(nDevice), m_nBitRate(nBitRate), m_nSRTFE(
+				0), m_nTXFF(0), m_nRXFF(0), m_nRXTO(0), m_nRXOR(0), m_bEmpty(
+				false), m_bNonBlocking(bNonBlocking), m_nRxCount(0) {
 	memset(m_nDataTx, 0, sizeof(m_nDataTx));
 	memset(m_nDataRx, 0, sizeof(m_nDataRx));
 }
@@ -166,13 +167,13 @@ void ssi_peripheral::Initialize() {
 	GPIOPadConfigSet(m_rSpecification.m_nGPIOBase,
 			m_rSpecification.m_nGPIOInputPin, GPIO_STRENGTH_2MA,
 			GPIO_PIN_TYPE_STD_WPU);
-	// Set standrad on the SSI output pins
+	// Set standard on the SSI output pins
 	GPIOPadConfigSet(m_rSpecification.m_nGPIOBase,
 			m_rSpecification.m_nGPIOOutputPins, GPIO_STRENGTH_2MA,
 			GPIO_PIN_TYPE_STD);
 	// Configure the SSI peripheral
 	SSIConfigSetExpClk(m_rSpecification.m_nSSIBase, SysCtlClockGet(),
-	SSI_FRF_MOTO_MODE_0, SSI_MODE_MASTER, m_nBitRate, 16);
+			m_nProtocol, SSI_MODE_MASTER, m_nBitRate, 16);
 	// Enable the SSI module.
 	MAP_SSIEnable(m_rSpecification.m_nSSIBase);
 	// Read any residual data from the SSI port.
