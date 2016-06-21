@@ -220,6 +220,7 @@ void ssi_peripheral::Terminate() {
 		break;
 	case ssi_peripheral::SSI3:
 		g_pTheSSI3 = 0;
+		break;
 	default:
 		break;
 	}
