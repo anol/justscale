@@ -26,15 +26,16 @@
 //--------------------------------
 #include "uartstdio.h"
 #include "qei_sensor.h"
-#include "ssi_display.h"
+#include "ssi_max7219.h"
 //--------------------------------
 #include "primary_activity.h"
 //--------------------------------
 primary_activity::primary_activity() :
-		m_oDisplay_X(aeo1::ssi_display::SSI1), m_oDisplay_Y(
-				aeo1::ssi_display::SSI3), m_oScale_X(aeo1::qei_sensor::QEI1), m_oScale_Y(
-				aeo1::qei_sensor::QEI0), m_nPressedCount_X(0), m_nPressedCount_Y(
-				0), m_bTrace(false), m_bIndex(false) {
+		m_oDisplay_X(aeo1::ssi_max7219::SSI1), m_oDisplay_Y(
+				aeo1::ssi_max7219::SSI3), m_oDisplay_Z(aeo1::ssi_max7219::SSI0), m_oScale_X(
+				aeo1::qei_sensor::QEI1), m_oScale_Y(aeo1::qei_sensor::QEI0), m_nPressedCount_X(
+				0), m_nPressedCount_Y(0), m_nPressedCount_Z(0), m_bTrace(false), m_bIndex(
+				false) {
 }
 //--------------------------------
 primary_activity::~primary_activity() {
@@ -67,6 +68,10 @@ static bool GetButton_X() {
 	return GPIOPinRead(GPIO_PORTC_BASE, GPIO_PIN_7) ? false : true;
 }
 //--------------------------------
+static bool GetButton_Z() {
+	return false;
+}
+//--------------------------------
 static bool GetIndex_X() {
 	return GPIOPinRead(GPIO_PORTF_BASE, GPIO_PIN_4) ? false : true;
 }
@@ -75,10 +80,15 @@ static bool GetIndex_Y() {
 	return GPIOPinRead(GPIO_PORTC_BASE, GPIO_PIN_4) ? false : true;
 }
 //--------------------------------
+static bool GetIndex_Z() {
+	return false;
+}
+//--------------------------------
 void primary_activity::Initialize() {
 	SetupInput();
 	m_oDisplay_X.Initialize();
 	m_oDisplay_Y.Initialize();
+	m_oDisplay_Z.Initialize();
 	m_oScale_X.Initialize();
 	m_oScale_Y.Initialize();
 }
@@ -155,12 +165,16 @@ void primary_activity::Info() {
 	UARTprintf("Y: button=%5s, count=%d, index=%5s, position=%d\n",
 			GetButton_Y() ? "true" : "false", m_nPressedCount_Y,
 			GetIndex_Y() ? "true" : "false", m_oScale_Y.Get());
+	UARTprintf("Z: button=%5s, count=%d, index=%5s, position=%d\n",
+			GetButton_Z() ? "true" : "false", m_nPressedCount_Y,
+			GetIndex_Z() ? "true" : "false", 0);
 }
 //--------------------------------
 void primary_activity::Diag() {
 	Info();
 	m_oDisplay_X.Diag();
 	m_oDisplay_Y.Diag();
+	m_oDisplay_Z.Diag();
 	m_oScale_X.Diag();
 	m_oScale_Y.Diag();
 }
@@ -173,5 +187,9 @@ void primary_activity::SetX(int nValue) {
 void primary_activity::SetY(int nValue) {
 	m_oDisplay_Y.Set(nValue, 2);
 	m_oScale_Y.Set(nValue);
+}
+//--------------------------------
+void primary_activity::SetZ(int nValue) {
+	m_oDisplay_Z.Set(nValue, 2);
 }
 //--------------------------------

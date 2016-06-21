@@ -20,6 +20,7 @@ public:
 	void Info();
 	void SetX(int nValue);
 	void SetY(int nValue);
+	void SetZ(int nValue);
 	void OnTrace();
 	void Trace() {
 		m_bTrace = ~m_bTrace;
@@ -29,12 +30,14 @@ private:
 	bool CheckInputs(int& rCount, bool bButton, bool bIndex) const;
 
 private:
-	aeo1::ssi_display m_oDisplay_X;
-	aeo1::ssi_display m_oDisplay_Y;
+	aeo1::ssi_max7219 m_oDisplay_X;
+	aeo1::ssi_max7219 m_oDisplay_Y;
+	aeo1::ssi_max7219 m_oDisplay_Z;
 	aeo1::qei_sensor m_oScale_X;
 	aeo1::qei_sensor m_oScale_Y;
 	int m_nPressedCount_X;
 	int m_nPressedCount_Y;
+	int m_nPressedCount_Z;
 	bool m_bTrace;
 	bool m_bIndex;
 };

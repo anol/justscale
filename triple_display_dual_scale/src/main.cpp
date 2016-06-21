@@ -22,7 +22,7 @@
 #include "driverlib/qei.h"
 //--------------------------------
 #include "qei_sensor.h"
-#include "ssi_display.h"
+#include "ssi_max7219.h"
 #include "cmdline.h"
 #include "uartstdio.h"
 #include "primary_activity.h"
