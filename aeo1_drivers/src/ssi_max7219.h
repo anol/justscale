@@ -1,22 +1,16 @@
-/*
- * ssi_display.h
- *
- *  Created on: 3. mars 2015
- *      Author: Anders
- */
 
-#ifndef ssi_display_h
-#define ssi_display_h
+#ifndef ssi_max7219_h
+#define ssi_max7219_h
 //--------------------------------
 #include "ssi_peripheral.h"
 //--------------------------------
 namespace aeo1 {
 //--------------------------------
-class ssi_display: public ssi_peripheral {
+class ssi_max7219: public ssi_peripheral {
 
 public:
-	ssi_display(ssi_peripheral::device_id nDevice);
-	virtual ~ssi_display();
+	ssi_max7219(ssi_peripheral::device_id nDevice);
+	virtual ~ssi_max7219();
 
 public:
 	void Initialize();
@@ -28,12 +22,11 @@ public:
 	}
 
 private:
-	uint32_t Digit2Segments(uint32_t nIndex, uint32_t nValue,
-			bool bbDecimalPoint);
 
 private:
+
 };
 //--------------------------------
 } /* namespace aeo1 */
 //--------------------------------
-#endif /* ssi_display_h */
+#endif /* ssi_max7219_h */
