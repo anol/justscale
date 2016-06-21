@@ -192,6 +192,7 @@ void ssi_peripheral::Initialize() {
 		break;
 	case ssi_peripheral::SSI3:
 		g_pTheSSI3 = this;
+		break;
 	default:
 		break;
 	}
