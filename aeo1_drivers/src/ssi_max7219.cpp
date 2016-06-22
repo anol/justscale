@@ -43,7 +43,7 @@ static const max7219_registerset RegisterSet_Default = {
 		0x600, // Digit 5
 		0x700, // Digit 6
 		0x800, // Digit 7
-		0x900, // Code-B: No Decode=0x00, Decode All=0xFF
+		0x9FF, // Code-B: No Decode=0x00, Decode All=0xFF
 		0xA08, // Intensity: Minimum=0x00, Maximum=0x0F
 		0xB07, // Scan Limit: Digit 0 Only=0x00, All Digits=0x07
 		0xC01, // Shutdown Mode=0, Normal Operation=1
@@ -68,19 +68,14 @@ void ssi_max7219::Initialize() {
 	}
 }
 //--------------------------------
+void ssi_max7219::Intensity(int32_t nValue) {
+	Put((0xA00) | (0xF & nValue));
+}
+//--------------------------------
 static uint32_t Digit2Segments(uint32_t nDigitNumber, uint32_t nDigitValue,
-		bool bbDecimalPoint) {
-	const uint8_t Symbols[18] = { 0x3F, 0x06, 0x5B, 0x4F, 0x66, 0x6D, 0x7D,
-			0x07, 0x7F, 0x6F, 0x77, 0x7C, 0x39, 0x5E, 0x79, 0x71 };
-	if (0xF > nDigitValue) {
-		uint8_t nSegmentValue = ~(Symbols[nDigitValue]
-				| (bbDecimalPoint ? 0x80 : 0x0));
-		return (nSegmentValue) | (nDigitNumber << 8);
-	} else if (0x10 == nDigitValue) {
-		return (0xBF) | (nDigitNumber << 8);
-	} else {
-		return (0xFF) | (nDigitNumber << 8);
-	}
+		bool bDecimalPoint) {
+	return (nDigitValue & 0xF) | (bDecimalPoint ? 0x80 : 0x00)
+			| (nDigitNumber << 8);
 }
 //--------------------------------
 void ssi_max7219::Set(int32_t nValue, int nDecimals) {
@@ -88,16 +83,16 @@ void ssi_max7219::Set(int32_t nValue, int nDecimals) {
 	if (bNegative) {
 		nValue = -nValue;
 	}
-	for (int nDigitNumber = 0; BufferSize > nDigitNumber; nDigitNumber++) {
+	for (int nDigitNumber = 1; 9 > nDigitNumber; nDigitNumber++) {
 		int nDigitValue = nValue % 10;
 		bool bDecimalPoint = (0 == nDecimals);
 		if (nValue || nDigitValue || (0 <= nDecimals)) {
 			Put(Digit2Segments(nDigitNumber, nDigitValue, bDecimalPoint));
 		} else if (bNegative) {
 			bNegative = false;
-			Put(Digit2Segments(nDigitNumber, 0x10, bDecimalPoint));
+			Put(Digit2Segments(nDigitNumber, 0xB, bDecimalPoint));
 		} else {
-			Put(Digit2Segments(nDigitNumber, 0x11, bDecimalPoint));
+			Put(Digit2Segments(nDigitNumber, 0xF, bDecimalPoint));
 		}
 		nValue /= 10;
 		nDecimals--;

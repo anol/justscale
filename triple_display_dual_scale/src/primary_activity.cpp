@@ -193,3 +193,9 @@ void primary_activity::SetZ(int nValue) {
 	m_oDisplay_Z.Set(nValue, 2);
 }
 //--------------------------------
+void primary_activity::Intensity(int32_t nValue) {
+	m_oDisplay_X.Intensity(nValue);
+	m_oDisplay_Y.Intensity(nValue);
+	m_oDisplay_Z.Intensity(nValue);
+}
+//--------------------------------

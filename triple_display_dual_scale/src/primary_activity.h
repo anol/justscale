@@ -21,6 +21,7 @@ public:
 	void SetX(int nValue);
 	void SetY(int nValue);
 	void SetZ(int nValue);
+	void Intensity(int32_t nValue);
 	void OnTrace();
 	void Trace() {
 		m_bTrace = ~m_bTrace;

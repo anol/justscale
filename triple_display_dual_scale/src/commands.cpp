@@ -24,6 +24,7 @@
 
 #include <stdint.h>
 #include <stdbool.h>
+#include <string.h>
 #include "inc/hw_types.h"
 #include "inc/tm4c123gh6pm.h"
 #include "inc/hw_memmap.h"
@@ -56,15 +57,15 @@ tCmdLineEntry g_psCmdTable[] = {
 
 { "help", CMD_help, " : Display list of commands" },
 
-{ "setx", CMD_setx, " : Set the X value" },
-
-{ "sety", CMD_sety, " : Set the Y value" },
+{ "set", CMD_set, " : Show a value in one of the displays" },
 
 { "diag", CMD_diag, " : Show diagnostics" },
 
 { "info", CMD_info, " : Show information" },
 
 { "trace", CMD_trace, " : Toggle trace on/off" },
+
+{ "intens", CMD_intens, " : Set display intensity" },
 
 { "ver", CMD_ver, " : Show program info" },
 
@@ -92,18 +93,20 @@ int CMD_help(int argc, char **argv) {
 	return (0);
 }
 //--------------------------------
-int CMD_setx(int argc, char **argv) {
-	if (argc == 2) {
-		uint32_t nValue = ustrtoul(argv[1], 0, 10);
-		g_oPrimaryActivity.SetX(nValue);
-	}
-	return (0);
-}
-//--------------------------------
-int CMD_sety(int argc, char **argv) {
-	if (argc == 2) {
-		uint32_t nValue = ustrtoul(argv[1], 0, 10);
-		g_oPrimaryActivity.SetY(nValue);
+int CMD_set(int argc, char **argv) {
+	if (argc == 3) {
+		uint32_t nValue = ustrtoul(argv[2], 0, 10);
+		if (!strcmp(argv[1], "x")) {
+			g_oPrimaryActivity.SetX(nValue);
+		} else if (!strcmp(argv[1], "y")) {
+			g_oPrimaryActivity.SetY(nValue);
+		} else if (!strcmp(argv[1], "z")) {
+			g_oPrimaryActivity.SetZ(nValue);
+		} else {
+			UARTprintf("\nUse: \"set <x|y|z> <value>\"");
+		}
+	} else {
+		UARTprintf("\nUse: \"set <x|y|z> <value>\"");
 	}
 	return (0);
 }
@@ -120,6 +123,14 @@ int CMD_info(int argc, char **argv) {
 //--------------------------------
 int CMD_trace(int argc, char **argv) {
 	g_oPrimaryActivity.Trace();
+	return (0);
+}
+//--------------------------------
+int CMD_intens(int argc, char **argv) {
+	if (argc == 2) {
+		uint32_t nIntensity = ustrtoul(argv[1], 0, 10);
+		g_oPrimaryActivity.Intensity(nIntensity);
+	}
 	return (0);
 }
 //--------------------------------

@@ -17,6 +17,7 @@ public:
 	void Diag();
 	void Set(int32_t nValue, int nDecimals = 0);
 	void Set(const char* zString);
+	void Intensity(int32_t nValue);
 	void OnTx() {
 		LoadTxFIFO();
 	}
