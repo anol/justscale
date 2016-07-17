@@ -34,7 +34,7 @@ primary_activity::primary_activity() :
 		m_oDisplay_X(aeo1::ssi_max7219::SSI1), m_oDisplay_Y(
 				aeo1::ssi_max7219::SSI3), m_oDisplay_Z(aeo1::ssi_max7219::SSI0), m_oScale_X(
 				aeo1::qei_sensor::QEI1), m_oScale_Y(aeo1::qei_sensor::QEI0), m_nPressedCount_X(
-				0), m_nPressedCount_Y(0), m_nPressedCount_Z(0), m_bTrace(false), m_bIndex(
+				0), m_nPressedCount_Y(0), m_nPressedCount_Z(0), m_nDecimals(2), m_bTrace(false), m_bIndex(
 				false) {
 }
 //--------------------------------
@@ -154,8 +154,8 @@ void primary_activity::OnTick() {
 		m_bIndex = true;
 	}
 	// Update the displays
-	m_oDisplay_X.Set(m_oScale_X.Get(), 2);
-	m_oDisplay_Y.Set(m_oScale_Y.Get(), 2);
+	m_oDisplay_X.Set(m_oScale_X.Get(), m_nDecimals);
+	m_oDisplay_Y.Set(m_oScale_Y.Get(), m_nDecimals);
 }
 //--------------------------------
 void primary_activity::Info() {
@@ -180,22 +180,26 @@ void primary_activity::Diag() {
 }
 //--------------------------------
 void primary_activity::SetX(int nValue) {
-	m_oDisplay_X.Set(nValue, 2);
+	m_oDisplay_X.Set(nValue, m_nDecimals);
 	m_oScale_X.Set(nValue);
 }
 //--------------------------------
 void primary_activity::SetY(int nValue) {
-	m_oDisplay_Y.Set(nValue, 2);
+	m_oDisplay_Y.Set(nValue, m_nDecimals);
 	m_oScale_Y.Set(nValue);
 }
 //--------------------------------
 void primary_activity::SetZ(int nValue) {
-	m_oDisplay_Z.Set(nValue, 2);
+	m_oDisplay_Z.Set(nValue, m_nDecimals);
 }
 //--------------------------------
 void primary_activity::Intensity(int32_t nValue) {
 	m_oDisplay_X.Intensity(nValue);
 	m_oDisplay_Y.Intensity(nValue);
 	m_oDisplay_Z.Intensity(nValue);
+}
+//--------------------------------
+void primary_activity::Decimals(int32_t nValue) {
+	m_nDecimals = nValue;
 }
 //--------------------------------

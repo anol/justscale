@@ -94,7 +94,11 @@ int CMD_help(int argc, char **argv) {
 }
 //--------------------------------
 int CMD_set(int argc, char **argv) {
-	if (argc == 3) {
+	if (argc > 3) {
+		uint32_t nValue = ustrtoul(argv[3], 0, 10);
+		g_oPrimaryActivity.Decimals(nValue);
+	}
+	if (argc > 2) {
 		uint32_t nValue = ustrtoul(argv[2], 0, 10);
 		if (!strcmp(argv[1], "x")) {
 			g_oPrimaryActivity.SetX(nValue);
@@ -103,10 +107,10 @@ int CMD_set(int argc, char **argv) {
 		} else if (!strcmp(argv[1], "z")) {
 			g_oPrimaryActivity.SetZ(nValue);
 		} else {
-			UARTprintf("\nUse: \"set <x|y|z> <value>\"");
+			UARTprintf("\nUse: \"set <x|y|z> <value> [decimals]\"");
 		}
 	} else {
-		UARTprintf("\nUse: \"set <x|y|z> <value>\"");
+		UARTprintf("\nUse: \"set <x|y|z> <value> [decimals]\"");
 	}
 	return (0);
 }

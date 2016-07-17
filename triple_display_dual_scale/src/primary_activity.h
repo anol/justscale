@@ -22,6 +22,7 @@ public:
 	void SetY(int nValue);
 	void SetZ(int nValue);
 	void Intensity(int32_t nValue);
+	void Decimals(int32_t nValue);
 	void OnTrace();
 	void Trace() {
 		m_bTrace = ~m_bTrace;
@@ -39,6 +40,7 @@ private:
 	int m_nPressedCount_X;
 	int m_nPressedCount_Y;
 	int m_nPressedCount_Z;
+	int m_nDecimals;
 	bool m_bTrace;
 	bool m_bIndex;
 };
